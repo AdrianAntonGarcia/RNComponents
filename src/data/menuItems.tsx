@@ -12,7 +12,12 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: 'Switch',
-    icon: 'albums-outline',
+    icon: 'toggle-outline',
     component: 'SwitchScreen',
+  },
+  {
+    name: 'Switch',
+    icon: 'alert-circle-outline',
+    component: 'AlertScreen',
   },
 ];
