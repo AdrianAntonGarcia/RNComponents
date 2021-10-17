@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Button, Alert} from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
 import {appStyles} from '../theme/appTheme';
+import prompt from 'react-native-prompt-android';
 
 export const AlertScreen = () => {
   const showAlert = () => {
@@ -23,19 +24,18 @@ export const AlertScreen = () => {
    * Solo funciona en IOS
    */
   const showPrompt = () => {
-    Alert.prompt(
+    prompt(
       '¿Está seguro?',
       'Esta acción no se puede revertir',
-      (valor: string) => console.log('info', valor),
-      'plain-text',
-      '',
-      '',
+      (valor: string) => console.log('info:', valor),
+      {cancelable: true},
     );
   };
   return (
     <View style={appStyles.globalMargin}>
       <HeaderTitle title="Alerts" />
       <Button title="Mostrar Alerta" onPress={showAlert} />
+      <View style={{height: 10}}></View>
       <Button title="Mostrar Prompt" onPress={showPrompt} />
     </View>
   );
