@@ -8,16 +8,20 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Text,
 } from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
 import {appStyles} from '../theme/appTheme';
+import {useForm} from '../hooks/useForm';
+import {CustomSwitch} from '../components/CustomSwitch';
 
 export const TextInputScreen = () => {
-  const [form, setForm] = useState({name: '', email: '', phone: ''});
-
-  const onChange = (value: string, field: string) => {
-    setForm({...form, [field]: value});
-  };
+  const {formulario: form, onChange} = useForm({
+    name: '',
+    email: '',
+    phone: '',
+    isSubscribed: false,
+  });
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -42,15 +46,22 @@ export const TextInputScreen = () => {
               textContentType="emailAddress"
               keyboardAppearance="dark"
             />
-            <HeaderTitle title={JSON.stringify(form, null, 2)} />
-            <HeaderTitle title={JSON.stringify(form, null, 2)} />
-            <HeaderTitle title={JSON.stringify(form, null, 2)} />
             <TextInput
               style={styles.inputStyle}
               placeholder="Ingrese su teléfono"
               onChangeText={value => onChange(value, 'phone')}
               keyboardType="phone-pad"
             />
+            <View style={styles.switchRow}>
+              <Text style={styles.switchText}>Subscribirse:</Text>
+              <CustomSwitch
+                onChange={value => onChange(value, 'isSubscribed')}
+                isOn={form.isSubscribed}
+              />
+            </View>
+            <HeaderTitle title={JSON.stringify(form, null, 2)} />
+            <HeaderTitle title={JSON.stringify(form, null, 2)} />
+            <HeaderTitle title={JSON.stringify(form, null, 2)} />
             <View style={{height: 100}} />
           </View>
         </TouchableWithoutFeedback>
@@ -67,5 +78,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 10,
     borderColor: 'rgba(0,0,0,0.4)',
+  },
+  switchText: {
+    fontSize: 25,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
   },
 });
