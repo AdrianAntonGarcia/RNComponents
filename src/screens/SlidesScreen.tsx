@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Animated,
   Dimensions,
   Image,
   ImageSourcePropType,
@@ -10,10 +11,13 @@ import {
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useAnimation} from '../hooks/useAnimation';
+import {StackScreenProps} from '@react-navigation/stack';
 const {height: screenHeight, width: screenWdith} = Dimensions.get('window');
 
+interface Props extends StackScreenProps<any, any> {}
 interface Slide {
   title: string;
   desc: string;
@@ -38,8 +42,11 @@ const items: Slide[] = [
   },
 ];
 
-export const SlidesScreen = () => {
+export const SlidesScreen = ({navigation}: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const {opacity, fadeIn, fadeOut} = useAnimation();
+
+  const isVisibleRef = useRef(false);
   const renderItem = (item: Slide) => {
     return (
       <View
@@ -70,9 +77,17 @@ export const SlidesScreen = () => {
         renderItem={({item}: {item: Slide}) => renderItem(item)}
         sliderWidth={screenWdith}
         itemWidth={screenHeight}
-        layout="default"
+        layout="stack"
         onSnapToItem={index => {
+          console.log(index);
           setActiveIndex(index);
+          if (items.length - 1 === index) {
+            isVisibleRef.current = true;
+            fadeIn();
+          } else {
+            isVisibleRef.current = false;
+            fadeOut();
+          }
         }}
       />
       <View
@@ -92,26 +107,34 @@ export const SlidesScreen = () => {
             backgroundColor: '#5856D6',
           }}
         />
-        <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            backgroundColor: '#5856D6',
-            width: 150,
-            height: 50,
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          activeOpacity={0.8}>
-          <Text style={{fontSize: 25, color: 'white'}}>Entrar</Text>
-          <Icon name="chevron-forward-outline" color="white" size={30} />
-        </TouchableOpacity>
+
+        <Animated.View style={{opacity: opacity}}>
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#5856D6',
+              width: 150,
+              height: 50,
+              borderRadius: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => {
+              if (isVisibleRef.current) {
+                navigation.navigate('HomeScreen');
+              }
+            }}
+            activeOpacity={0.8}>
+            <Text style={{fontSize: 25, color: 'white'}}>Entrar</Text>
+            <Icon name="chevron-forward-outline" color="white" size={30} />
+          </TouchableOpacity>
+        </Animated.View>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  title: {fontSize: 30, fontWeight: 'bold', color: '#5856D6'},
-  subtitle: {fontSize: 16},
+  title: {fontSize: 30, fontWeight: 'bold', color: '#5856D6', width: 350},
+  subtitle: {fontSize: 16, width: 350},
 });
