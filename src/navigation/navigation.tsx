@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from '../screens/HomeScreen';
 import {Animation101Screen} from '../screens/Animation101Screen';
@@ -17,17 +17,17 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import {useReduxDevToolsExtension} from '@react-navigation/devtools';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
+
 const Stack = createStackNavigator();
 
 export const Navigation = () => {
   const navigationRef = useNavigationContainerRef();
+  const {theme} = useContext(ThemeContext);
 
   useReduxDevToolsExtension(navigationRef);
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      // theme={customTheme}
-    >
+    <NavigationContainer ref={navigationRef} theme={theme}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
