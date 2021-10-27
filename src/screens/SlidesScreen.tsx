@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Animated,
   Dimensions,
@@ -15,6 +15,7 @@ import {useState, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useAnimation} from '../hooks/useAnimation';
 import {StackScreenProps} from '@react-navigation/stack';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 const {height: screenHeight, width: screenWdith} = Dimensions.get('window');
 
 interface Props extends StackScreenProps<any, any> {}
@@ -45,14 +46,16 @@ const items: Slide[] = [
 export const SlidesScreen = ({navigation}: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const {opacity, fadeIn, fadeOut} = useAnimation();
-
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
   const isVisibleRef = useRef(false);
   const renderItem = (item: Slide) => {
     return (
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: colors.background,
           borderRadius: 5,
           padding: 40,
           justifyContent: 'center',
@@ -61,8 +64,12 @@ export const SlidesScreen = ({navigation}: Props) => {
           source={item.img}
           style={{width: 350, height: 400, resizeMode: 'center'}}
         />
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subtitle}>{item.desc}</Text>
+        <Text style={{...styles.title, color: colors.primary}}>
+          {item.title}
+        </Text>
+        <Text style={{...styles.subtitle, color: colors.text}}>
+          {item.desc}
+        </Text>
       </View>
     );
   };
@@ -104,7 +111,7 @@ export const SlidesScreen = ({navigation}: Props) => {
             width: 10,
             height: 10,
             borderRadius: 10,
-            backgroundColor: '#5856D6',
+            backgroundColor: colors.primary,
           }}
         />
 
@@ -112,7 +119,7 @@ export const SlidesScreen = ({navigation}: Props) => {
           <TouchableOpacity
             style={{
               flexDirection: 'row',
-              backgroundColor: '#5856D6',
+              backgroundColor: colors.primary,
               width: 150,
               height: 50,
               borderRadius: 10,

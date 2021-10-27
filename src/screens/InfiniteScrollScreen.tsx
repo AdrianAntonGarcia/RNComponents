@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   FlatList,
   View,
@@ -9,18 +9,21 @@ import {
 import {HeaderTitle} from '../components/HeaderTitle';
 import {useState} from 'react';
 import {FadeInImage} from '../components/FadeInImage';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 export const InfiniteScrollScreen = () => {
   const [numbers, setNumbers] = useState([0, 1, 2, 3, 4, 5]);
-
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
   const loadMore = () => {
     const newArray: number[] = [];
     for (let i = 0; i < 5; i++) {
       newArray[i] = numbers.length + i;
     }
-    setTimeout(() => {
-      setNumbers([...numbers, ...newArray]);
-    }, 1500);
+    // setTimeout(() => {
+    setNumbers([...numbers, ...newArray]);
+    // }, 1500);
   };
   const renderItem = (item: number) => {
     return (
@@ -54,7 +57,7 @@ export const InfiniteScrollScreen = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <ActivityIndicator size={35} color="#5856D6" />
+            <ActivityIndicator size={35} color={colors.primary} />
           </View>
         )}
       />

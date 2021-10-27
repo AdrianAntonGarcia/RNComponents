@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   TextInput,
   View,
@@ -14,8 +14,12 @@ import {HeaderTitle} from '../components/HeaderTitle';
 import {appStyles} from '../theme/appTheme';
 import {useForm} from '../hooks/useForm';
 import {CustomSwitch} from '../components/CustomSwitch';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 export const TextInputScreen = () => {
+  const {
+    theme: {colors, dividerColor},
+  } = useContext(ThemeContext);
   const {formulario: form, onChange} = useForm({
     name: '',
     email: '',
@@ -30,14 +34,23 @@ export const TextInputScreen = () => {
           <View style={appStyles.globalMargin}>
             <HeaderTitle title="TextInputs" />
             <TextInput
-              style={styles.inputStyle}
+              style={{
+                ...styles.inputStyle,
+                borderColor: colors.text,
+                color: colors.text,
+              }}
               placeholder="Ingrese su nombre"
               autoCorrect={false}
               autoCapitalize="words"
               onChangeText={value => onChange(value, 'name')}
+              placeholderTextColor={dividerColor}
             />
             <TextInput
-              style={styles.inputStyle}
+              style={{
+                ...styles.inputStyle,
+                borderColor: colors.text,
+                color: colors.text,
+              }}
               placeholder="Ingrese su email"
               autoCorrect={false}
               autoCapitalize="none"
@@ -45,12 +58,18 @@ export const TextInputScreen = () => {
               keyboardType="email-address"
               textContentType="emailAddress"
               keyboardAppearance="dark"
+              placeholderTextColor={dividerColor}
             />
             <TextInput
-              style={styles.inputStyle}
+              style={{
+                ...styles.inputStyle,
+                borderColor: colors.text,
+                color: colors.text,
+              }}
               placeholder="Ingrese su teléfono"
               onChangeText={value => onChange(value, 'phone')}
               keyboardType="phone-pad"
+              placeholderTextColor={dividerColor}
             />
             <View style={styles.switchRow}>
               <Text style={styles.switchText}>Subscribirse:</Text>
@@ -77,7 +96,6 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     paddingHorizontal: 10,
     borderRadius: 10,
-    borderColor: 'rgba(0,0,0,0.4)',
   },
   switchText: {
     fontSize: 25,
