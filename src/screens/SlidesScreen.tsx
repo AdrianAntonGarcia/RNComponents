@@ -6,10 +6,12 @@ import {
   Text,
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useState} from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 const {height: screenHeight, width: screenWdith} = Dimensions.get('window');
 
 interface Slide {
@@ -64,6 +66,7 @@ export const SlidesScreen = () => {
         //   this._carousel = c;
         // }}
         data={items}
+        // removeClippedSubviews={true}
         renderItem={({item}: {item: Slide}) => renderItem(item)}
         sliderWidth={screenWdith}
         itemWidth={screenHeight}
@@ -72,16 +75,38 @@ export const SlidesScreen = () => {
           setActiveIndex(index);
         }}
       />
-      <Pagination
-        dotsLength={items.length}
-        activeDotIndex={activeIndex}
-        dotStyle={{
-          width: 10,
-          height: 10,
-          borderRadius: 10,
-          backgroundColor: '#5856D6',
-        }}
-      />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: 20,
+          alignItems: 'center',
+        }}>
+        <Pagination
+          dotsLength={items.length}
+          activeDotIndex={activeIndex}
+          dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 10,
+            backgroundColor: '#5856D6',
+          }}
+        />
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            backgroundColor: '#5856D6',
+            width: 150,
+            height: 50,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          activeOpacity={0.8}>
+          <Text style={{fontSize: 25, color: 'white'}}>Entrar</Text>
+          <Icon name="chevron-forward-outline" color="white" size={30} />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
