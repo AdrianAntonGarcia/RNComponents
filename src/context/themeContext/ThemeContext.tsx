@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useReducer} from 'react';
+import React, {createContext, useEffect, useReducer, useRef} from 'react';
 import {Appearance, AppState, useColorScheme} from 'react-native';
 import {ThemeState, themeReducer, lightTheme, darkTheme} from './ThemeReducer';
 
@@ -13,6 +13,7 @@ export const ThemeContext = createContext({} as ThemeContextProps);
 export const ThemeProvider = ({children}: any) => {
   const colorScheme = useColorScheme();
   const [theme, dispatch] = useReducer(themeReducer, lightTheme);
+  const mountedRef = useRef(true);
 
   // Solo en IOS
   // useEffect(() => {
@@ -26,6 +27,7 @@ export const ThemeProvider = ({children}: any) => {
   };
   useEffect(() => {
     AppState.addEventListener('change', status => {
+      if (!mountedRef.current) return null;
       if (status === 'active') {
         // when debugger is active you will always get "light" theme. Just close debugger and everything will be good.
         Appearance.getColorScheme() === 'light'
