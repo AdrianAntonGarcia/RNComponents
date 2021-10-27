@@ -13,7 +13,7 @@ import {useReduxDevToolsExtension} from '@react-navigation/devtools';
 const customTheme: Theme = {
   dark: true,
   colors: {
-    ...DarkTheme.colors,
+    ...DefaultTheme.colors,
     // primary: 'string',
     // background: 'string',
     // card: 'string',

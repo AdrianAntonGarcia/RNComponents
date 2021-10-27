@@ -11,6 +11,7 @@ import {CustomSectionListScreen} from '../screens/CustomSectionListScreen';
 import {ModalScreen} from '../screens/ModalScreen';
 import {InfiniteScrollScreen} from '../screens/InfiniteScrollScreen';
 import {SlidesScreen} from '../screens/SlidesScreen';
+import {ChangeThemeScreen} from '../screens/ChangeThemeScreen';
 
 const Stack = createStackNavigator();
 
@@ -75,6 +76,11 @@ export const Navigation = () => {
         name="SlidesScreen"
         options={{header: () => <></>}}
         component={SlidesScreen}
+      />
+      <Stack.Screen
+        name="ChangeThemeScreen"
+        options={{header: () => <></>}}
+        component={ChangeThemeScreen}
       />
     </Stack.Navigator>
   );
