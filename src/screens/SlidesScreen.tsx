@@ -7,8 +7,9 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useState} from 'react';
 const {height: screenHeight, width: screenWdith} = Dimensions.get('window');
 
 interface Slide {
@@ -36,6 +37,7 @@ const items: Slide[] = [
 ];
 
 export const SlidesScreen = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
   const renderItem = (item: Slide) => {
     return (
       <View
@@ -66,6 +68,19 @@ export const SlidesScreen = () => {
         sliderWidth={screenWdith}
         itemWidth={screenHeight}
         layout="default"
+        onSnapToItem={index => {
+          setActiveIndex(index);
+        }}
+      />
+      <Pagination
+        dotsLength={items.length}
+        activeDotIndex={activeIndex}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 10,
+          backgroundColor: '#5856D6',
+        }}
       />
     </SafeAreaView>
   );
